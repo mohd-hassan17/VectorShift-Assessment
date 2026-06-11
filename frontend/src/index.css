@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --canvas-bg:    #0d1117;
+  --toolbar-bg:   #090d13;
+  --node-bg:      #111827;
+  --node-header:  #0d1520;
+  --input-bg:     #0a0e17;
+  --border-dim:   rgba(255,255,255,0.07);
+  --border-input: rgba(255,255,255,0.1);
+  --text-hi:      #e8edf5;
+  --text-mid:     #8b96a8;
+  --text-lo:      #3d4f66;
+  --font:         'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background: var(--canvas-bg);
+  font-family: var(--font);
+  color: var(--text-hi);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Canvas ─────────────────────────────────────────────── */
+.react-flow__renderer,
+.react-flow__pane { background: var(--canvas-bg) !important; }
+
+/* Visible dot grid — key contrast tweak */
+.react-flow__background pattern circle { fill: #1e2d42 !important; }
+
+/* ── Edges ──────────────────────────────────────────────── */
+.react-flow__edge-path {
+  stroke: #1e293b !important;
+  stroke-width: 2.5px !important;
+  transition: stroke 0.2s, stroke-width 0.2s;
+}
+.react-flow__edge:hover .react-flow__edge-path,
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: #6366f1 !important;
+  stroke-width: 3px !important;
+}
+.react-flow__connection-line {
+  stroke: #6366f1 !important;
+  stroke-dasharray: 4;
+  animation: flow-dash 1s linear infinite;
+  stroke-width: 2.5px !important;
+}
+@keyframes flow-dash {
+  from { stroke-dashoffset: 8; }
+  to   { stroke-dashoffset: 0; }
+}
+
+.react-flow__edge-path { fill: none !important; }
+.react-flow__connection-path { fill: none !important; }
+
+/* Animated dash on connected edges */
+.react-flow__edge.animated .react-flow__edge-path {
+  stroke-dasharray: 6 3 !important;
+  animation: edge-flow 1s linear infinite !important;
+}
+@keyframes edge-flow {
+  from { stroke-dashoffset: 18; }
+  to   { stroke-dashoffset: 0; }
+}
+
+/* ── Node selection ─────────────────────────────────────── */
+.react-flow__node.selected > div,
+.react-flow__node:focus > div {
+  outline: none !important;
+}
+
+/* ── Controls ───────────────────────────────────────────── */
+.react-flow__controls {
+  background: #111827 !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+  left: 16px !important;
+  bottom: 72px !important;
+}
+.react-flow__controls-button {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+  width: 34px !important;
+  height: 34px !important;
+  fill: #4a5f7a !important;
+  transition: fill 0.12s, background 0.12s !important;
+}
+.react-flow__controls-button:hover {
+  background: rgba(255,255,255,0.06) !important;
+  fill: #c5d0e0 !important;
+}
+.react-flow__controls-button:last-child { border-bottom: none !important; }
+.react-flow__controls-button svg { width: 13px !important; height: 13px !important; }
+
+/* ── MiniMap ────────────────────────────────────────────── */
+.react-flow__minimap {
+  background: #111827 !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+  right: 16px !important;
+  bottom: 72px !important;
+}
+.react-flow__minimap-mask { fill: rgba(9,13,19,0.8) !important; }
+.react-flow__minimap-node { fill: #1e3a5f !important; rx: 2; }
+
+/* ── Handles ────────────────────────────────────────────── */
+.react-flow__handle {
+  transition: transform 0.15s cubic-bezier(0.34,1.56,0.64,1), opacity 0.15s !important;
+}
+.react-flow__handle:hover {
+  transform: translate(-50%,-50%) scale(1.5) !important;
+}
+.react-flow__handle-connecting {
+  transform: translate(-50%,-50%) scale(1.7) !important;
+}
+
+/* ── Attribution ────────────────────────────────────────── */
+.react-flow__attribution { display: none !important; }
+
+/* ── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 4px; }
+
+/* select option theming */
+option { background: #111827; color: #e8edf5; }
