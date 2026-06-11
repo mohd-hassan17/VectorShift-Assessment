@@ -1,0 +1,37 @@
+# Python Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Environment Variables & Secrets (CRITICAL for FastAPI)
+.env
+.env.*
+!.env.example
+secrets.toml
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing, Coverage, and Linting
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Database (Local SQLite files if used for development)
+*.sqlite3
+*.db
