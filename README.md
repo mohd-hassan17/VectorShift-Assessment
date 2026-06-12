@@ -1,70 +1,246 @@
-# Getting Started with Create React App
+# VectorShift Frontend Technical Assessment
+### Submitted by — Mohd Hassan
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A fully functional AI pipeline builder built with React, ReactFlow, and FastAPI. Drag nodes onto the canvas, connect them, and submit to validate the pipeline structure.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Tech Stack
 
-### `npm start`
+| Layer | Technology |
+|---|---|
+| Frontend | React 18, ReactFlow 11, Zustand |
+| Animations | Framer Motion |
+| Icons | Lucide React |
+| Backend | Python 3.10+, FastAPI, Uvicorn |
+| Styling | Inline styles + CSS (no UI library) |
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Project Structure
 
-### `npm test`
+```
+root/
+├── frontend/               # React application
+│   ├── src/
+│   │   ├── nodes/
+│   │   │   ├── BaseNode.js       # Core node abstraction
+│   │   │   ├── inputNode.js
+│   │   │   ├── outputNode.js
+│   │   │   ├── llmNode.js
+│   │   │   ├── textNode.js       # Auto-resize + {{ var }} handles
+│   │   │   ├── apiNode.js        # New node
+│   │   │   ├── filterNode.js     # New node
+│   │   │   ├── transformNode.js  # New node
+│   │   │   ├── mergeNode.js      # New node
+│   │   │   └── noteNode.js       # New node
+│   │   ├── App.js
+│   │   ├── ui.js                 # ReactFlow canvas
+│   │   ├── toolbar.js            # Draggable node chips
+│   │   ├── draggableNode.js
+│   │   ├── submit.js             # Backend integration + modal
+│   │   ├── store.js              # Zustand state
+│   │   └── index.css
+│   └── package.json
+└── backend/
+    └── main.py                   # FastAPI + DAG validation
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Prerequisites
+- Node.js 16+
+- Python 3.10+
+- pip
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 1. Clone the repository
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+git clone https://github.com/mohd-hassan17/VectorShift-Assessment.git
+cd vectorshift-assessment
+```
 
-### `npm run eject`
+### 2. Start the Backend
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+cd backend
+pip install fastapi uvicorn
+uvicorn main:app --reload
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Backend runs at → `http://127.0.0.1:8000`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 3. Start the Frontend
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+cd frontend
+npm install
+npm start
+```
 
-## Learn More
+Frontend runs at → `http://localhost:3000`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+> Make sure both terminals are running simultaneously.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 4. Environment Variables (Optional)
 
-### Code Splitting
+By default the frontend points to `http://127.0.0.1:8000`. To override:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+# frontend/.env
+REACT_APP_API_URL=http://127.0.0.1:8000
+```
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## What Was Built
 
-### Making a Progressive Web App
+### Part 1 — Node Abstraction
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Created a `BaseNode` component that serves as the single source of truth for all nodes. Every node is defined by a simple config object:
 
-### Advanced Configuration
+```js
+// Before — ~40 lines of repeated code per node
+// After — 15 lines using BaseNode
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+export const APINode = ({ id, data }) => (
+  <BaseNode
+    id={id} data={data}
+    title="API Request" icon="⚡" color="#34d399"
+    handles={{
+      inputs:  [{ id: `${id}-body` }],
+      outputs: [{ id: `${id}-response` }],
+    }}
+    fields={[
+      { key: 'url',    label: 'Endpoint URL', type: 'text' },
+      { key: 'method', label: 'Method', type: 'select', options: ['GET','POST','PUT','DELETE'] },
+    ]}
+  />
+);
+```
 
-### Deployment
+**5 new nodes built:** API Request, Filter, Transform, Merge, Note
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+**BaseNode handles automatically:**
+- Handle positioning and distribution
+- Field rendering (text / select / textarea)
+- Focus states with accent color glow
+- Framer Motion entrance animation
+- Selection state with border glow
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Part 2 — Styling
+
+Built a unified dark design system inspired by Linear and Vercel, without any CSS framework:
+
+- Dark canvas with radial gradient depth effect and visible dot grid
+- Color-coded nodes — each type has its own accent color reflected in border, header, handles
+- Framer Motion animations on node drop and entrance
+- Animated dashed edges for active connections
+- Consistent typography hierarchy and spacing
+- Responsive toolbar with staggered chip animation
+- Polished modal with backdrop blur for pipeline results
+
+---
+
+### Part 3 — Text Node Logic
+
+Two features implemented in `textNode.js`:
+
+**Auto-resize (width + height)**
+```js
+// Height: scrollHeight recalculated on every keystroke
+useEffect(() => {
+  taRef.current.style.height = 'auto';
+  taRef.current.style.height = taRef.current.scrollHeight + 'px';
+}, [text]);
+
+// Width: calculated from longest line character count
+const calcMinWidth = (text) => {
+  const longest = Math.max(...text.split('\n').map(l => l.length));
+  return Math.min(520, Math.max(240, longest * 7.8 + 56));
+};
+```
+
+**Dynamic `{{ variable }}` Handles**
+```js
+// Valid JS variable name detection
+const VAR_REGEX = /\{\{\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\}\}/g;
+```
+
+- Detects valid JavaScript variable names only
+- One unique handle per variable — no duplicates
+- Handles update in real time as the user types
+- Handles are removed when variables are deleted
+- Variable pills show below the textarea for quick reference
+
+---
+
+### Part 4 — Backend Integration
+
+**Frontend (`submit.js`)**
+- Sends `{ nodes, edges }` via `POST /pipelines/parse`
+- Loading state with animated spinner
+- Empty pipeline guard before sending
+- Error state with backend connection hint
+- Success modal with node count, edge count, and DAG status
+
+**Backend (`main.py`)**
+
+DAG detection using **Kahn's Algorithm** (topological sort):
+
+```python
+def is_dag(nodes, edges):
+    # Build adjacency list + in-degree map
+    in_degree = {n.id: 0 for n in nodes}
+    adj = {n.id: [] for n in nodes}
+
+    for edge in edges:
+        adj[edge.source].append(edge.target)
+        in_degree[edge.target] += 1
+
+    # BFS from zero in-degree nodes
+    queue = deque(nid for nid in in_degree if in_degree[nid] == 0)
+    visited = 0
+    while queue:
+        node = queue.popleft()
+        visited += 1
+        for neighbour in adj[node]:
+            in_degree[neighbour] -= 1
+            if in_degree[neighbour] == 0:
+                queue.append(neighbour)
+
+    # If visited == total nodes, no cycle exists
+    return visited == len(nodes)
+```
+
+Response format:
+```json
+{
+  "num_nodes": 3,
+  "num_edges": 2,
+  "is_dag": true
+}
+```
+
+---
+
+## Demo Scenarios
+
+| Scenario | Expected Result |
+|---|---|
+| Empty canvas → Submit | Warning: "Add at least one node" |
+| Input → LLM → Output | ✅ Valid DAG, 3 nodes, 2 edges |
+| A → B → A (cycle) | ❌ Cycle Detected, Not a DAG |
+| Text node with `{{name}} {{score}}` | 2 dynamic handles appear on left |
+
+---
+
+## Author
+
+**Mohd Hassan**
+Full Stack & GenAI Developer — Mumbai
+GitHub: [@mohd-hassan17](https://github.com/mohd-hassan17)
