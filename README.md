@@ -62,15 +62,32 @@ git clone https://github.com/mohd-hassan17/VectorShift-Assessment.git
 cd vectorshift-assessment
 ```
 
-### 2. Start the Backend
+## Backend Setup
 
 ```bash
 cd backend
-pip install fastapi uvicorn
-uvicorn main:app --reload
+
+# Create a virtual environment
+python -m venv venv
+
+# Activate the virtual environment
+
+# Windows
+.\venv\Scripts\activate
+
+# macOS/Linux
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Start the backend server
+python -m uvicorn main:app --reload
 ```
 
-Backend runs at → `http://127.0.0.1:8000`
+Backend will be available at:
+
+http://127.0.0.1:8000
 
 ### 3. Start the Frontend
 
