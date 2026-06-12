@@ -1,4 +1,3 @@
-// outputNode.js — refactored with BaseNode
 import { BaseNode } from './BaseNode';
 
 export const OutputNode = ({ id, data }) => (

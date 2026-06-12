@@ -5,7 +5,7 @@ import { useStore } from '../store';
 
 const F = "'Inter', system-ui, sans-serif";
 
-/* ── Field renderer ──────────────────────────────────────── */
+/* Field renderer  */
 const Field = ({ field, value, onChange }) => {
   const [focused, setFocused] = useState(false);
   const ac = field.accentColor || '#6366f1';
@@ -58,7 +58,7 @@ const Field = ({ field, value, onChange }) => {
   );
 };
 
-/* ── Handle builder ──────────────────────────────────────── */
+/* Handle builder  */
 export const buildHandles = (list = [], type, color) =>
   list.map((h, i) => {
     const n   = list.length;
@@ -78,7 +78,7 @@ export const buildHandles = (list = [], type, color) =>
     );
   });
 
-/* ── BaseNode ────────────────────────────────────────────── */
+/* BaseNode  */
 export const BaseNode = ({
   id, data, title, color = '#6366f1', icon = '',
   fields = [], handles = {}, minWidth = 240, children, selected,
@@ -154,7 +154,7 @@ export const BaseNode = ({
         }}>{title}</span>
       </div>
 
-      {/* ── Body ── */}
+      {/* Body */}
       {(fields.length > 0 || children) && (
         <div style={{
           padding: '12px 14px 14px',

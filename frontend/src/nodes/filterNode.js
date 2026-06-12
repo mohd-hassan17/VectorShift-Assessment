@@ -1,4 +1,3 @@
-// filterNode.js — conditional filter / router node
 import { BaseNode } from './BaseNode';
 
 export const FilterNode = ({ id, data }) => (

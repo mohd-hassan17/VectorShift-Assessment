@@ -1,4 +1,3 @@
-// transformNode.js — data transformation / formatting node
 import { BaseNode } from './BaseNode';
 
 export const TransformNode = ({ id, data }) => (

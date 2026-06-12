@@ -31,15 +31,15 @@ export const LLMNode = ({ id, data, selected }) => {
         borderRadius: '0 0 2px 2px', opacity: 0.8,
       }} /> */}
 
-      {/* ── System handle + label row ── */}
+      {/* System handle + label row */}
       <Handle type="target" position={Position.Left} id={`${id}-system`}
         style={{ top: '38%', width: 11, height: 11, background: CLR, border: '2.5px solid #080c14', boxShadow: `0 0 0 2px ${CLR}30` }}
       />
-      {/* ── Prompt handle + label row ── */}
+      {/* Prompt handle + label row */}
       <Handle type="target" position={Position.Left} id={`${id}-prompt`}
         style={{ top: '72%', width: 11, height: 11, background: CLR, border: '2.5px solid #080c14', boxShadow: `0 0 0 2px ${CLR}30` }}
       />
-      {/* ── Response output handle ── */}
+      {/* Response output handle */}
       <Handle type="source" position={Position.Right} id={`${id}-response`}
         style={{ top: '50%', width: 11, height: 11, background: CLR, border: '2.5px solid #080c14', boxShadow: `0 0 0 2px ${CLR}30` }}
       />

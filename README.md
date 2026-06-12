@@ -102,8 +102,7 @@ REACT_APP_API_URL=http://127.0.0.1:8000
 Created a `BaseNode` component that serves as the single source of truth for all nodes. Every node is defined by a simple config object:
 
 ```js
-// Before — ~40 lines of repeated code per node
-// After — 15 lines using BaseNode
+// After — 15 lines using BaseNode  Hello {{name}}, your scoreis {{score}}
 
 export const APINode = ({ id, data }) => (
   <BaseNode

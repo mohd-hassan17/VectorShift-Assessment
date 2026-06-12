@@ -1,4 +1,3 @@
-// mergeNode.js — merges multiple inputs into one output
 import { BaseNode } from './BaseNode';
 
 export const MergeNode = ({ id, data }) => (

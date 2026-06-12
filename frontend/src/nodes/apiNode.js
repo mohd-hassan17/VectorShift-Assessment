@@ -1,4 +1,3 @@
-// apiNode.js — HTTP API caller node
 import { BaseNode } from './BaseNode';
 
 export const APINode = ({ id, data }) => (

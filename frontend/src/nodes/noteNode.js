@@ -1,4 +1,3 @@
-// noteNode.js — sticky note / comment node (no handles)
 import { BaseNode } from './BaseNode';
 
 export const NoteNode = ({ id, data }) => (
